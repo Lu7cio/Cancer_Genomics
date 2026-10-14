@@ -13,7 +13,7 @@
 #Define data path, container path and output directory
 INPUT_DIR="/data/users/mkummer/Cancer_Genomics/output/bwa-mem2/tumor"
 RESULTS_DIR="/data/users/mkummer/Cancer_Genomics/output/samtools_sorted/tumor"
-IN_BAM="$RESULTS_DIR/tumor_aligned.bam"
+IN_BAM="$INPUT_DIR/tumor_aligned.bam"
 OUT_BAM="$RESULTS_DIR/tumor_aligned.sorted.bam"
 SIF_PATH="/containers/apptainer/bwa_0.7.19_samtools_1.21.sif"
 
