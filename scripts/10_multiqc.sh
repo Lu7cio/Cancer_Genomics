@@ -12,7 +12,7 @@
 #Define data path, container path and output directory
 BASE_DIR="/data/users/mkummer/Cancer_Genomics"
 OUTPUT_DIR="$BASE_DIR/output/multiqc"
-SIF_PATH="/data/users/mkummer/Cancer_Genomics/containers/multiqc-1.32.sif"
+SIF_PATH="/containers/apptainer/multiqc-1.33.sif"
 
 # Ensure output directory exists
 mkdir -p "$OUTPUT_DIR/normal" "$OUTPUT_DIR/tumor"

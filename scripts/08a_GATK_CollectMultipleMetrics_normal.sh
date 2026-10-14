@@ -17,7 +17,7 @@ REF_DIR="/data/users/mkummer/Cancer_Genomics/input/bwa_idx"
 IN_BAM="$INPUT_DIR/normal_marked.bam"
 OUT_PREFIX="$RESULTS_DIR/normal"
 REF="$REF_DIR/genome.fa"
-SIF_PATH="/data/users/mkummer/Cancer_Genomics/containers/gatk_4.6.0.sif"
+SIF_PATH="/data/users/mkummer/Cancer_Genomics/containers/gatk_4.6.2.0.sif"
 
 #Ensure output directory exists
 mkdir -p "$RESULTS_DIR"
