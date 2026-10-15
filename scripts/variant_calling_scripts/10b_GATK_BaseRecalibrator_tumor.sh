@@ -14,7 +14,7 @@
 #Define data path, container path and output directory
 INPUT_DIR="/data/users/mkummer/Cancer_Genomics/output/GATK/tumor"
 INPUT_DIR_2="/data/courses/cancergenomics/VAR_CALLING"
-RESULTS_DIR="/data/users/mkummer/Cancer_Genomics/output/GATK/BaseRecalibrator/tumor"
+RESULTS_DIR="/data/users/mkummer/Cancer_Genomics/output/GATK/tumor"
 REF_DIR="/data/users/mkummer/Cancer_Genomics/input/bwa_idx"
 REF="$REF_DIR/genome.fa"
 IN_BAM="$INPUT_DIR/tumor_marked.bam"
