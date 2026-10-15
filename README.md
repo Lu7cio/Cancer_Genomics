@@ -1,8 +1,6 @@
 # Course
 
-## Cancer Genomics, Autumn Semester 2026
-
-## University of Bern
+Cancer Genomics, Autumn Semester 2026, University of Bern
 
 ## Authors
 
@@ -24,7 +22,7 @@ All analyses were performed using fixed software versions.
 | BW-MEM2 | 0.7.19 |
 | samtools | 1.21 |
 | GATK | 4.6.2.0 |
-|
+
 
 ## Workflow of Analysis
 
