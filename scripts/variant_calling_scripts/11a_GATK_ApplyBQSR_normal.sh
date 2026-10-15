@@ -8,8 +8,8 @@
 #SBATCH --time=02:00:00
 #SBATCH --account=class-407009-ws-2026
 #SBATCH --reservation=class-407009-2026-10-15
-#SBATCH --output=/data/users/mkummer/Cancer_Genomics/logs/GATK/tumor/BaseRecalibrator_%j.o
-#SBATCH --error=/data/users/mkummer/Cancer_Genomics/logs/GATK/tumor/BaseRecalibrator_%j.e
+#SBATCH --output=/data/users/mkummer/Cancer_Genomics/logs/GATK/tumor/ApplyBQSR_%j.o
+#SBATCH --error=/data/users/mkummer/Cancer_Genomics/logs/GATK/tumor/ApplyBQSR_%j.e
 
 #Define data path, container path and output directory
 INPUT_DIR="/data/users/mkummer/Cancer_Genomics/output/GATK/normal"
