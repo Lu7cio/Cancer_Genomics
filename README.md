@@ -34,15 +34,18 @@ All analyses were performed using fixed software versions.
 
 ## Workflow of Analysis
 
-### Variant Calling
+### Frist Part: Variant Calling
 
 All the scripts for this part of the are located in
 [`scripts/variant_calling_scripts/`](scripts/variant_calling_scripts/). Run the SLURM scripts in the following order for both the normal and tumor samples (Scripts with `normal` and `a` in the name are for the normal sample, and scripts with `tumor` and `b` in the name are for the tumor sample). Submit each  scriptwith `sbatch myscript.sh`:
 
-1. **Raw-read quality control**
+1. **Raw-read quality control** \
    Run [`01a_fastQC_raw_reads_normal.sh`](scripts/variant_calling_scripts/01a_fastQC_raw_reads_normal.sh)
    and [`01b_fastQC_raw_reads_tumor.sh`](scripts/variant_calling_scripts/01b_fastQC_raw_reads_tumor.sh)
    with FastQC to assess the raw paired-end reads.
+
+   - **Findings**\
+   Test
 
 2. **Read trimming and filtering**
    Run [`02a_fastP_raw_reads_normal.sh`](scripts/variant_calling_scripts/02a_fastP_raw_reads_normal.sh)
