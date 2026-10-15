@@ -149,7 +149,7 @@ All the scripts for this part of the are located in
 
 11. **Apply base quality score recalibration** \
     Run [`11a_GATK_ApplyBQSR_normal.sh`](scripts/variant_calling_scripts/11a_GATK_ApplyBQSR_normal.sh)
-    and [`11b_GATK_ApplyBQSR _tumor.sh`](scripts/variant_calling_scripts/11b_GATK_ApplyBQSR%20_tumor.sh)
+    and [`11b_GATK_ApplyBQSR_tumor.sh`](scripts/variant_calling_scripts/11b_GATK_ApplyBQSR_tumor.sh)
     with GATK ApplyBQSR.
 
     - **Description**\
@@ -158,75 +158,53 @@ All the scripts for this part of the are located in
     - **Main findings**\
     Test
 
-**Form here the next steps are performe on the provided bam files (provided by the course) and not on our generated ones.**
+**From this point onward, the provided BAM files from the course are used instead
+of the BAM files generated in the preceding steps.**
 
-12. **Quality control of provided bam files** (It was advised to use the provided bam files and not our generated ones) \
+12. **Inspect the provided BAM files** \
 
-    Run [`11a_GATK_ApplyBQSR_normal.sh`](scripts/variant_calling_scripts/11a_GATK_ApplyBQSR_normal.sh)
-    and [`11b_GATK_ApplyBQSR _tumor.sh`](scripts/variant_calling_scripts/11b_GATK_ApplyBQSR%20_tumor.sh)
+    Run [`12_inspect_quality_control_bam_files.sh`](scripts/variant_calling_scripts/12_inspect_quality_control_bam_files.sh)
+    with samtools view.
 
-    with GATK ApplyBQSR.
     - **Description**\
     Test
 
     - **Main findings**\
     Test
 
-13. **Quality control of provided bam files** (It was advised to use the provided bam files and not our generated ones) \
+13. **Calculate alignment statistics with samtools flagstat** \
 
-    Run [`11a_GATK_ApplyBQSR_normal.sh`](scripts/variant_calling_scripts/11a_GATK_ApplyBQSR_normal.sh)
-    and [`11b_GATK_ApplyBQSR _tumor.sh`](scripts/variant_calling_scripts/11b_GATK_ApplyBQSR%20_tumor.sh)
+    Run [`13a_samtools_flagstat_normal.sh`](scripts/variant_calling_scripts/13a_samtools_flagstat_normal.sh)
+    and [`13b_samtools_flagstat_tumor.sh`](scripts/variant_calling_scripts/13b_samtools_flagstat_tumor.sh) with samtools flagstat.
 
-    with GATK ApplyBQSR.
     - **Description**\
     Test
 
     - **Main findings**\
     Test
 
-14. **Quality control of provided bam files** (It was advised to use the provided bam files and not our generated ones) \
-
-    Run [`11a_GATK_ApplyBQSR_normal.sh`](scripts/variant_calling_scripts/11a_GATK_ApplyBQSR_normal.sh)
-    and [`11b_GATK_ApplyBQSR _tumor.sh`](scripts/variant_calling_scripts/11b_GATK_ApplyBQSR%20_tumor.sh)
-
-    with GATK ApplyBQSR.
-    - **Description**\
-    Test
-
-    - **Main findings**\
-    Test
-
-15. **Quality control of provided bam files** (It was advised to use the provided bam files and not our generated ones) \
-
-    Run [`11a_GATK_ApplyBQSR_normal.sh`](scripts/variant_calling_scripts/11a_GATK_ApplyBQSR_normal.sh)
-    and [`11b_GATK_ApplyBQSR _tumor.sh`](scripts/variant_calling_scripts/11b_GATK_ApplyBQSR%20_tumor.sh)
-
-    with GATK ApplyBQSR.
-    - **Description**\
-    Test
-
-    - **Main findings**\
-    Test
-
-16. **HsMetrics aggregation and visualization with MultiQC**
+14. **Calculate hybrid-selection metrics with GATK CollectHsMetrics** \
 
     Run [`14a_GATK_CollectHsMetrics_normal.sh`](scripts/variant_calling_scripts/14a_GATK_CollectHsMetrics_normal.sh)
     and [`14b_GATK_CollectHsMetrics_tumor.sh`](scripts/variant_calling_scripts/14b_GATK_CollectHsMetrics_tumor.sh)
-    first, followed by [`15_multiqc_quality_bam_files.sh`](scripts/variant_calling_scripts/15_multiqc_quality_bam_files.sh).
-    The MultiQC script aggregates the HsMetrics reports for the normal and
-    tumor samples into `output/quality_control_bam/multiqc/multiqc_report.html`.
+    with GATK CollectHsMetrics. 
 
-    - **Description**
+    - **Description**\
+    Test
 
-      CollectHsMetrics measures capture performance for the target regions.
-      MultiQC combines the normal and tumor reports into one interactive report.
+    - **Main findings**\
+    Test
 
-    - **Evaluation**
+15. **Aggregate quality-control metrics with MultiQC** \
 
-      Inspect `multiqc_report.html` for metrics including target folding, mean
-      target coverage, and zero-coverage targets. See the
-      [Picard HsMetrics documentation](https://broadinstitute.github.io/picard/picard-metric-definitions.html#HsMetrics)
-      for definitions of these metrics.
+    Run [`15_multiqc_quality_bam_files.sh`](scripts/variant_calling_scripts/15_multiqc_quality_bam_files.sh) with multiqc.
+
+    - **Description**\
+    Test
+
+    - **Main findings**\
+    Test
+
 
 ### Second Part: Mutational signatures
 
@@ -241,15 +219,22 @@ Cancer_Genomics/
 │   ├── gatk_4.6.2.0.sif
 │   └── multiqc_1.32.sif
 ├── input/
-│   ├── alignments/    
+│   ├── alignments/
 │   ├── bwa_idx/
+│   ├── reference/
 │   └── raw_reads/
 ├── output/
 │   ├── bwa-mem2/
 │   ├── fastp/
 │   ├── fastqc/
 │   ├── GATK/
+│   │   └── ApplyBQSR/
 │   ├── multiqc/
+│   ├── quality_control_bam/
+│   │   ├── collect_hs_metrics/
+│   │   ├── first_inspection/
+│   │   ├── multiqc/
+│   │   └── samtools_flagstat/
 │   └── samtools_sorted/
 ├── logs/
 │   ├── bwa-mem2/
@@ -257,6 +242,10 @@ Cancer_Genomics/
 │   ├── fastqc/
 │   ├── GATK/
 │   ├── multiqc/
+│   ├── quality_control_bam/
+│   │   ├── collect_hs_metrics/
+│   │   ├── inspection/
+│   │   └── samtools_flagstat/
 │   └── sort_samtools/
 └── scripts/
     ├── mutational_signatures_scripts/
@@ -281,7 +270,13 @@ Cancer_Genomics/
         ├── 10a_GATK_BaseRecalibrator_normal.sh
         ├── 10b_GATK_BaseRecalibrator_tumor.sh
         ├── 11a_GATK_ApplyBQSR_normal.sh
-        └── 11b_GATK_ApplyBQSR _tumor.sh
+        ├── 11b_GATK_ApplyBQSR_tumor.sh
+        ├── 12_inspect_quality_control_bam_files.sh
+        ├── 13a_samtools_flagstat_normal.sh
+        ├── 13b_samtools_flagstat_tumor.sh
+        ├── 14a_GATK_CollectHsMetrics_normal.sh
+        ├── 14b_GATK_CollectHsMetrics_tumor.sh
+        └── 15_multiqc_quality_bam_files.sh
 ```
 
 - `input/` contains the raw sequencing reads, reference-genome indexes and the provided bam files (Data provided by the Course).
