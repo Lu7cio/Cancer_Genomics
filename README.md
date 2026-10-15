@@ -8,7 +8,7 @@ University of Bern
 
 ## Authors
 
-Marin Garcia Guillermo, Endrine Krasniqi, and Mario Kummer
+Marin Garcia Guillermo, Endrinë Krasniqi, Mario Lucio Kummer
 
 ## Description
 
