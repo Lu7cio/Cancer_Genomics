@@ -1,3 +1,6 @@
+# To do:
+Multiqc report adjustments and and workflow proof read.
+
 # Course
 
 **Cancer Genomics, Autumn Semester 2026, University of Bern**
