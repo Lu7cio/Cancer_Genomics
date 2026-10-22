@@ -6,7 +6,6 @@
 #SBATCH --mem=32G
 #SBATCH --time=04:00:00
 #SBATCH --account=class-407009-ws-2026
-#SBATCH --reservation=class-407009-2026-10-08
 #SBATCH --output=/data/users/gmaringarcia/Cancer_Genomics/logs/GATK/Mutect2_%j.o
 #SBATCH --error=/data/users/gmaringarcia/Cancer_Genomics/logs/GATK/Mutect2_%j.e
 
@@ -16,7 +15,7 @@ MARIO_DIR="/data/users/mkummer/Cancer_Genomics"
 # Your directory for Outputs
 MY_DIR="/data/users/gmaringarcia/Cancer_Genomics"
 # Shared course resources (for gnomAD and Panel of Normals)
-COURSE_RES_DIR="/data/courses/cancergenomics/2026/VAR_CALLING/resources"
+COURSE_RES_DIR="/data/courses/cancergenomics/VAR_CALLING/resources"
 
 # Input files
 REF_FA="${MARIO_DIR}/input/reference/ref_genome.fa"
@@ -40,7 +39,6 @@ mkdir -p "${MY_DIR}/logs/GATK"
 # Run GATK Mutect2
 apptainer exec \
   --bind /data \
-  --bind /storage \
   "$GATK_SIF" \
   gatk Mutect2 \
   -R "$REF_FA" \
