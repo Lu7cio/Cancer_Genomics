@@ -7,11 +7,11 @@ Multiqc report adjustments and and workflow proof read.
 
 ## Authors
 
-Marin Garcia Guillermo, Endrinë Krasniqi, Mario Lucio Kummer
+Guillermo Marín García, Endrinë Krasniqi, Mario Lucio Kummer
 
 ## Description
 
-The goal of this course project was to analyze cancer genomic data.Biological Samples: Whole-exome sequencing (WES) data from paired cell lines:
+The goal of this course project was to analyze cancer genomic data. Biological Samples: Whole-exome sequencing (WES) data from paired cell lines:
 Tumor: Triple-negative breast cancer HCC1395
 Normal: Matched normal tissue HCC1395 BL
 
@@ -28,6 +28,7 @@ All analyses were performed using fixed software versions.
 | BWA-MEM2 | 0.7.19 |
 | samtools | 1.21 |
 | GATK | 4.6.2.0 |
+| bcftools | 1.19 |
 
 
 ## Workflow of Analysis
@@ -35,7 +36,7 @@ All analyses were performed using fixed software versions.
 ### First Part: Variant Calling
 
 All the scripts for this part of the are located in
-[`scripts/variant_calling_scripts/`](scripts/variant_calling_scripts/). Run the SLURM scripts in the following order for both the normal and tumor samples (Scripts with `normal` and `a` in the name are for the normal sample, and scripts with `tumor` and `b` in the name are for the tumor sample). Submit each  script with `sbatch myscript.sh`:
+[`scripts/variant_calling_scripts/`](scripts/variant_calling_scripts/). Run the SLURM scripts in the following order for both the normal and tumor samples (Scripts with `normal` and `a` in the name are for the normal sample, and scripts with `tumor` and `b` in the name are for the tumor sample). Submit each script with `sbatch myscript.sh`:
 
 1. **Raw-read quality control with FastQC** \
    Run [`01a_fastQC_raw_reads_normal.sh`](scripts/variant_calling_scripts/01a_fastQC_raw_reads_normal.sh) and [`01b_fastQC_raw_reads_tumor.sh`](scripts/variant_calling_scripts/01b_fastQC_raw_reads_tumor.sh).
@@ -49,7 +50,7 @@ All the scripts for this part of the are located in
 2. **Read trimming and filtering with fastp** \
    Run [`02a_fastP_raw_reads_normal.sh`](scripts/variant_calling_scripts/02a_fastP_raw_reads_normal.sh) and [`02b_fastP_raw_reads_tumor.sh`](scripts/variant_calling_scripts/02b_fastP_raw_reads_tumor.sh)
  
-   - **Description**\§
+   - **Description**\
    Improve the quality of the reads form both samples by trimming. It was run with paramter auto_detect_adapter_for_pe enabled, which allows fastp to automatically detect the adapter sequence and trim it from the paired end reads. 
 
    - **Main findings**\
@@ -84,10 +85,8 @@ All the scripts for this part of the are located in
    - **Description**\
    Map the trimmed reads of both samples to the reference genome using BWA-MEM2. For this the reference genome FASTA file mus be indexed using bwa-mem2 index. The preindex reference genome was provided by the course. Morover in this step the ouput SAM files were directly converted to the compressed, binary BAM format using samtools view (To save disk sapce).
 
-
    - **Main findings**\
    The mapping was and the conversion from the humanreadable SAM files to BAM format was successful for both samples.
-
 
 6. **Sorting and indexing with samtools** \
    Run [`06a_sort_index_samtools_normal.sh`](scripts/variant_calling_scripts/06a_sort_index_samtools_normal.sh)
@@ -100,18 +99,16 @@ All the scripts for this part of the are located in
    - **Main findings**\
    The indexing and sorting was successful for both samples. The sorted BAM files and the index files (.bai) were generated successfully.
 
-
 7. **Duplicate marking with GATK** \
    Run [`07a_GATK_MarkDuplicates_normal.sh`](scripts/variant_calling_scripts/07a_GATK_MarkDuplicates_normal.sh)
    and [`07b_GATK_MarkDupilcates_tumor.sh`](scripts/variant_calling_scripts/07b_GATK_MarkDupilcates_tumor.sh)
    with GATK MarkDuplicates.
 
    - **Description**\
-   GATK MarkDuplicates marks PCR duplicates (identical DNA fragments produced by over-amplification during library preparation) and optical duplicates (generated during sequencing cluster generation). These are marked since they do not represent independent molecurar sampling. If we leave them uncorrected it can arificallc inflate  coverage and bias variant allele frequencies, leading to false-positive variant calls or distorted expression estimates. Makring let the downstream analysis/tools (e.g variant callers) decide if theses are inlincluded or ignored instead of removing them compeltely.
+   GATK MarkDuplicates marks PCR duplicates (identical DNA fragments produced by over-amplification during library preparation) and optical duplicates (generated during sequencing cluster generation). These are marked since they do not represent independent molecurar sampling. If we leave them uncorrected it can arificallc inflate coverage and bias variant allele frequencies, leading to false-positive variant calls or distorted expression estimates. Makring let the downstream analysis/tools (e.g variant callers) decide if theses are inlincluded or ignored instead of removing them compeltely.
 
    - **Main findings**\
-   For the normal sample 6'113'950 reads were examined, which contained 10.6% non-optical duplicate reads (648'943), with only about 0.3% of duplicate pairs classified as optical duplicates (2'011). For the normal sample 7'956'714 reads were exampined, which contained 10.8% non-optical duplicate  reads (856'347), with only about 0.3% of duplicate pairs classified as optical duplicates (2'571). Therefore the duplicate rate is acceptable.
-
+   For the normal sample 6'113'950 reads were examined, which contained 10.6% non-optical duplicate reads (648'943), with only about 0.3% of duplicate pairs classified as optical duplicates (2'011). For the normal sample 7'956'714 reads were exampined, which contained 10.8% non-optical duplicate reads (856'347), with only about 0.3% of duplicate pairs classified as optical duplicates (2'571). Therefore the duplicate rate is acceptable.
 
 8. **Alignment metrics with GATK** \
    Run [`08a_GATK_CollectMultipleMetrics_normal.sh`](scripts/variant_calling_scripts/08a_GATK_CollectMultipleMetrics_normal.sh)
@@ -145,7 +142,6 @@ All the scripts for this part of the are located in
     - **Main findings**\
     The outut is just the caluclated error modle and it generates only the correction table, it doesnet actually change any bases or quality scores in our BAM files.
 
-
 11. **Apply base quality score recalibration with ApplyBQSR** \
     Run [`11a_GATK_ApplyBQSR_normal.sh`](scripts/variant_calling_scripts/11a_GATK_ApplyBQSR_normal.sh)
     and [`11b_GATK_ApplyBQSR_tumor.sh`](scripts/variant_calling_scripts/11b_GATK_ApplyBQSR_tumor.sh)
@@ -161,7 +157,6 @@ All the scripts for this part of the are located in
 of the BAM files generated in the preceding steps.**
 
 12. **Inspect the provided BAM files** \
-
     Run [`12_inspect_quality_control_bam_files.sh`](scripts/variant_calling_scripts/12_inspect_quality_control_bam_files.sh)
     with samtools view.
 
@@ -169,10 +164,9 @@ of the BAM files generated in the preceding steps.**
     Quick inspection of the provided BAM files to understand file content and processing details with samtools view.
 
     - **Main findings**\
-    The @HD tag shows "@HD	VN:1.6	SO:coordinate" which indicates that the bam file is sored by coordinate. The @SG tag shows "@SQ	SN:chr6	LN:170805979, @SQ	SN:chr17	LN:83257441" which indicates the that the chromosome 6 and 17 were used as the reference genome. The @PG tag shwos "@PG	ID:bwa	PN:bwa	VN:0.7.17-r1188	CL:bwa mem /config/data/reference//ref_genome.fa /config/data/reads/tumor_R1.fastq.gz /config/data/reads/tumor_R2.fastq.gz" which indicates the processing programm. Here the aligner bwa-mem was used. By inseocing a few alginemtn lines we can infer theat the original reads were 100 base pairs length based on from the CIGAR strings (100M, 100M, 100M).
+    The @HD tag shows "@HD VN:1.6   SO:coordinate" which indicates that the bam file is sored by coordinate. The @SG tag shows "@SQ SN:chr6  LN:170805979, @SQ SN:chr17 LN:83257441" which indicates the that the chromosome 6 and 17 were used as the reference genome. The @PG tag shwos "@PG ID:bwa   PN:bwa   VN:0.7.17-r1188   CL:bwa mem /config/data/reference//ref_genome.fa /config/data/reads/tumor_R1.fastq.gz /config/data/reads/tumor_R2.fastq.gz" which indicates the processing programm. Here the aligner bwa-mem was used. By inseocing a few alginemtn lines we can infer theat the original reads were 100 base pairs length based on from the CIGAR strings (100M, 100M, 100M).
 
 13. **Calculate alignment statistics with samtools flagstat** \
-
     Run [`13a_samtools_flagstat_normal.sh`](scripts/variant_calling_scripts/13a_samtools_flagstat_normal.sh)
     and [`13b_samtools_flagstat_tumor.sh`](scripts/variant_calling_scripts/13b_samtools_flagstat_tumor.sh) with samtools flagstat.
 
@@ -184,7 +178,6 @@ of the BAM files generated in the preceding steps.**
     For the normal sample, there are 12744793 total reads and 1397598 duplicate alignements.
 
 14. **Calculate hybrid-selection metrics with GATK CollectHsMetrics** \
-
     Run [`14a_GATK_CollectHsMetrics_normal.sh`](scripts/variant_calling_scripts/14a_GATK_CollectHsMetrics_normal.sh)
     and [`14b_GATK_CollectHsMetrics_tumor.sh`](scripts/variant_calling_scripts/14b_GATK_CollectHsMetrics_tumor.sh)
     with GATK CollectHsMetrics. 
@@ -196,14 +189,31 @@ of the BAM files generated in the preceding steps.**
     The resulting output .txt files for both sampels tumor and normal can be aggregate in a multiqcr report (next step 15.).
 
 15. **Aggregate quality-control metrics with MultiQC** \
-
     Run [`15_multiqc_quality_bam_files.sh`](scripts/variant_calling_scripts/15_multiqc_quality_bam_files.sh) with multiqc.
 
     - **Description**\
-    We inspect  hybrid-selection metrics such as target folding, mean target coverage, and zero-coverage genes
+    We inspect hybrid-selection metrics such as target folding, mean target coverage, and zero-coverage genes.
 
     - **Main findings**\
     For the tumor sample the Fold enrichment is approx. 23 and for the normal sample is approx. 22. For tumor sample 46.1 % usable on traget basse and for the normals ample 44.3%. Approximately 89.9% of bases are within 250 bp of target regions (selected bases) for normal sample and 90.9% for tumor sample. De-duplicated coverage is 84x for the normal sample and 114x for the tumor sample, indicating sufficient coverage for downstream analysis. All the stats can be seen in the corresponding multiqc report.
+
+16. **Somatic Variant Calling** \
+    Run [`16_GATK_Mutect2.sh`](scripts/variant_calling_scripts/16_GATK_Mutect2.sh) with GATK Mutect2.
+
+    - **Description**\
+    Performs somatic variant calling by comparing the tumor BAM against the matched normal BAM. It utilizes a germline resource (gnomAD) and a Panel of Normals (PoN) to accurately distinguish true somatic tumor mutations from inherited germline variants and technical sequencing artifacts.
+
+    - **Main findings**\
+    The raw somatic variants were successfully called and saved in a compressed VCF file (`somatic_raw.vcf.gz`). 
+
+17. **Variant Filtering and PASS Extraction** \
+    Run [`17_GATK_FilterMutectCalls.sh`](scripts/variant_calling_scripts/17_GATK_FilterMutectCalls.sh) with GATK FilterMutectCalls and bcftools.
+
+    - **Description**\
+    Evaluates the raw variants from Mutect2 using statistical error models to compute error probabilities. Subsequently, `bcftools` is used to filter the dataset, isolating exclusively the high-confidence variants (those tagged with the `PASS` filter) and generating the final indexed VCF for downstream biological annotation.
+
+    - **Main findings**\
+    After applying the stringent filters, exactly 132 high-confidence somatic variants (PASS) were successfully isolated in the tumor sample. This provides a clean dataset of true somatic mutations for the downstream mutational signature analysis.
 
 
 ### Second Part: Mutational signatures
@@ -215,6 +225,7 @@ of the BAM files generated in the preceding steps.**
 Cancer_Genomics/
 ├── README.md
 ├── containers/
+│   ├── bcftools.img
 │   ├── bwa-mem2.sif
 │   ├── gatk_4.6.2.0.sif
 │   └── multiqc_1.32.sif
@@ -228,7 +239,8 @@ Cancer_Genomics/
 │   ├── fastp/
 │   ├── fastqc/
 │   ├── GATK/
-│   │   └── ApplyBQSR/
+│   │   ├── ApplyBQSR/
+│   │   └── Mutect2/
 │   ├── multiqc/
 │   ├── quality_control_bam/
 │   │   ├── collect_hs_metrics/
@@ -241,6 +253,7 @@ Cancer_Genomics/
 │   ├── fastp/
 │   ├── fastqc/
 │   ├── GATK/
+│   │   └── Mutect2/
 │   ├── multiqc/
 │   ├── quality_control_bam/
 │   │   ├── collect_hs_metrics/
@@ -276,7 +289,9 @@ Cancer_Genomics/
         ├── 13b_samtools_flagstat_tumor.sh
         ├── 14a_GATK_CollectHsMetrics_normal.sh
         ├── 14b_GATK_CollectHsMetrics_tumor.sh
-        └── 15_multiqc_quality_bam_files.sh
+        ├── 15_multiqc_quality_bam_files.sh
+        ├── 16_GATK_Mutect2.sh
+        └── 17_GATK_FilterMutectCalls.sh
 ```
 
 - `input/` contains the raw sequencing reads, reference-genome indexes and the provided bam files (Data provided by the Course).
